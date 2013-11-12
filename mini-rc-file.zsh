@@ -13,7 +13,7 @@ PROMPT_PREAMBLE="%{👽%1G%} "
 
 if [[ ! -d ~/.zsh ]]; then
   if which git > /dev/null; then
-    echo git clone https://github.com/digiwano/zshconfs.git ~/.zsh
+    git clone git@github.com:digiwano/zshconfs.git ~/.zsh
   else
     echo "can't fetch git repo! zshconfs FAIL!"
   fi

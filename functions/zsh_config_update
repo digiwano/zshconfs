@@ -1,2 +1,7 @@
 #!/bin/zsh
-cd ~/.zsh && git pull
+local old_dir=`pwd`
+cd ~/.zsh
+git pull
+cd $old_dir
+unset $old_dir
+source ~/.zshrc
