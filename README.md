@@ -1,0 +1,4 @@
+zshconfs
+========
+
+zsh configs
