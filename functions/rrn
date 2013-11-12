@@ -1,0 +1,32 @@
+#!/bin/zsh
+
+perl_txt='
+use strict;
+use warnings;
+my %o = (c => ["mv"]); # default: use mv
+my ($cmd, @flist) = grep {
+  my $ret = 1;
+  if    (m/^(-h|--help)$/)         { usage(); }
+  elsif (m/^(-n|--dry-run)$/)      { $o{n} =  1; $ret = undef; }
+  elsif (m/^(-c|--command=)(.+)$/) { $o{c} = [split(/ /, $2)]; $ret = undef; }
+  $ret;
+} @ARGV;
+if (! $cmd ) { usage(); }chomp(@flist = <STDIN>) unless scalar @flist;
+if (! scalar(@flist) ) { usage(); }
+for (@flist) {
+  my $was = $_;
+  eval $cmd;
+  die $@ if $@;
+  next if $was eq $_; print(join(" ", @{$o{c}})." $was $_\n");
+  system(@{$o{c}}, $was, $_) unless $o{n};
+}
+sub usage {
+  print("rrn s/patt/replace/g *.txt\n");
+  print("find . -type f | xargs rrn s/patt/replace/g\n");
+  print(" technically this can be any valid perl expression, not just a regex\n");
+  print("   -n --dry-run only show changes, do not take action\n");
+  print(qq{   -c"svn mv" | --command=cp command to run (default: mv)\n});
+  exit;
+}
+'
+    perl -e "$perl_txt" -- $@

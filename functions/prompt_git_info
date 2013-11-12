@@ -1,0 +1,25 @@
+#!/bin/zsh
+
+if [[ -n "$__CURRENT_GIT_BRANCH" ]]; then
+  local s=""
+  s+="$__CURRENT_GIT_BRANCH"
+  s+=" "
+  case "$__CURRENT_GIT_BRANCH_STATUS" in
+    ahead)
+    s+="%{🔼%1G%} "
+    ;;
+    diverged)
+    s+="%{🔄%1G%} "
+    ;;
+    behind)
+    s+="%{🔽%1G%} "
+    ;;
+  esac
+  if [[ -n "$__CURRENT_GIT_BRANCH_IS_DIRTY" ]]; then
+    s+="%{🐙%1G%} "
+  else
+    s+="%{🌟%1G%} "
+  fi
+
+  printf " %s%s%s" "%{${fg[cyan]}%}" $s "%{$fg[default]%}"
+fi
