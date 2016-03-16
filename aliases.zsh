@@ -25,4 +25,4 @@ alias pd=popd
 
 # shortcuts
 alias so='source ~/.zshrc'
-alias irc='ssh neo.kekeke.org -t screen -x'
+alias irc='ssh kekeke.org -t screen -x'
